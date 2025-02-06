@@ -10,7 +10,7 @@ export default function Filter() {
   const [categories, setCategories] = useState<string[]>([]);
   const [tags, setTags] = useState<string[]>([]);
 
-  const availableCategories = ["Electronics", "Clothing", "Home", "Books"];
+  const availableCategories = ["Clothing", "Crockery"];
   const availableTags = ["New Arrival", "Discount", "Trending"];
 
   const handlePriceChange = (value: number[]) => {
@@ -101,3 +101,7 @@ export default function Filter() {
     </div>
   );
 }
+
+
+
+

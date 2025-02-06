@@ -1,6 +1,7 @@
-// src\components\grid-cards.tsx
+"use client";
 
 import Link from "next/link";
+import { useState } from "react";
 import {
   User,
   Phone,
@@ -12,9 +13,16 @@ import {
   Search,
   ShoppingCart,
   Heart,
+  Menu,
+  X,
 } from "lucide-react";
+import { UserButton } from "@clerk/nextjs";
+import { Input } from "./ui/input";
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [searchValue, setSearchValue] = useState(""); 
+
   return (
     <>
       {/* Top Header */}
@@ -47,10 +55,21 @@ export default function Header() {
           <Link href="/" className="text-2xl font-bold text-[#252B42]">
             Bandage
           </Link>
-          <nav className="hidden md:flex items-center gap-6">
+
+          {/* Mobile Menu Toggle */}
+          <button
+            className="md:hidden p-2"
+            onClick={() => setMenuOpen(!menuOpen)}
+            aria-label="Toggle Menu"
+          >
+            {menuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+
+          {/* Desktop Navigation */}
+          <nav className="hidden md:flex items-center gap-6 text-[#252B42]">
             <ul className="flex items-center gap-6">
               <li>
-                <Link href="/home">Home</Link>
+                <Link href="/">Home</Link>
               </li>
               <li>
                 <Link href="/productListing">Shop</Link>
@@ -72,23 +91,28 @@ export default function Header() {
               </li>
             </ul>
           </nav>
+
+          {/* Icons */}
           <div className="flex items-center gap-4 overflow-hidden">
-            <Link href='/login'>
-            <button className="flex items-center gap-2 bg-[#23A6F0] px-4 py-2 rounded hover:bg-gray-200 transition">
+            <button className="flex items-center gap-2 bg-[#23A6F0] px-1 py-2 rounded hover:bg-gray-200 transition">
               <User size={20} />
               <span className="bg-gray-100 font-bold text-black px-2 py-1 rounded">
                 Login/Register
               </span>
+              <UserButton />
             </button>
-            </Link>
-            <Link
-              href="/searchbar"
-              className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
-              aria-label="View Searchbar"
-            >
-              <Search size={20} />
-            </Link>
 
+            {/* Search */}
+            <div className="hidden md:flex items-center relative">
+              <Input
+                type="search"
+                placeholder="Search"
+                className="w-[180px] bg-[#F5F5F5] border-none rounded-full pl-10"
+                value={searchValue} // Use searchValue here
+                onChange={(e) => setSearchValue(e.target.value)} 
+              />
+              <Search className="w-5 h-5 absolute left-3 text-gray-400" />
+            </div>
             <Link
               href="/grid-cards"
               className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
@@ -96,17 +120,46 @@ export default function Header() {
             >
               <ShoppingCart size={20} />
             </Link>
-
             <Link
               href="/wishlist"
               className="p-2 rounded-full bg-gray-100 hover:bg-gray-200 transition"
-              aria-label="View Cart"
+              aria-label="View Wishlist"
             >
               <Heart size={20} />
             </Link>
           </div>
         </div>
       </div>
+
+      {/* Mobile Navigation */}
+      {menuOpen && (
+        <div className="md:hidden bg-white shadow-md absolute w-full left-0 top-16 z-50 p-4">
+          <ul className="flex flex-col gap-4">
+            <li>
+              <Link href="/">Home</Link>
+            </li>
+            <li>
+              <Link href="/productListing">Shop</Link>
+            </li>
+            <li>
+              <Link href="/about">About</Link>
+            </li>
+            <li>
+              <Link href="/team">Blog</Link>
+            </li>
+            <li>
+              <Link href="/contact">Contact</Link>
+            </li>
+            <li>
+              <Link href="/pricing">Pages</Link>
+            </li>
+            <li>
+              <Link href="/grid-cards">Our Products</Link>
+            </li>
+          </ul>
+          <UserButton />
+        </div>
+      )}
     </>
   );
 }

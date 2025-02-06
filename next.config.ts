@@ -9,7 +9,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'cdn.sanity.io',
         port: '', 
-        pathname: '/**', // Match all paths
+        pathname: '**',
+        search: '', 
+      },
+      {
+        protocol: 'https',
+        hostname: 'randomuser.me',
+        port: '',
+        pathname: '**',
+        search: '',
       },
     ],
   },

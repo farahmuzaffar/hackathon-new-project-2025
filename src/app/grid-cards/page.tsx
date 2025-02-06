@@ -32,6 +32,7 @@ async function OurProducts() {
   const res: res[] = await client.fetch(`*[_type == 'product'][]{
   id,title,price,description,tags,discountPercentage,isNew,colors,
    'image': image.asset->url
+   
 }`);
   return (
     <>
@@ -63,7 +64,7 @@ async function OurProducts() {
                 key={index}
               >
                 <Link
-                  href={`./grid-cards/ProductDetail/?id=${item.id}&image=${item.image}&description=${item.description}&price=${item.price}&title=${item.title}`}
+                  href={`./grid-cards/ProductDetail/?id=${item.id}&title=${item.title}&image=${item.image}&description=${item.description}&price=${item.price}`}
                 >
                   <div className="relative w-full h-[250px] bg-[#F5F5F5] p-3 flex justify-center items-center">
                     <Image
@@ -104,7 +105,7 @@ async function OurProducts() {
                   </div>
 
                   <div className="w-full flex flex-col gap-[6px] text-[16px] leading-[24px] font-medium pl-[3px]">
-                    <p className="mt-[10px]">{item.id}</p>
+                    <p className="mt-[10px]">{item.title}</p>
 
                     <div className="flex gap-3">
                       <span className="text-black-500">${item.price}</span>
